@@ -219,12 +219,35 @@ namespace NetLearner.SharedLib.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("NetLearner.SharedLib.Models.ContentFeed", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FeedUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LearningResourceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LearningResourceId");
+
+                    b.ToTable("ContentFeeds");
+                });
+
             modelBuilder.Entity("NetLearner.SharedLib.Models.LearningResource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContentFeedUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -242,6 +265,21 @@ namespace NetLearner.SharedLib.Migrations
                     b.ToTable("LearningResources");
                 });
 
+            modelBuilder.Entity("NetLearner.SharedLib.Models.LearningResourceTopicTag", b =>
+                {
+                    b.Property<int>("LearningResourceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicTagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LearningResourceId", "TopicTagId");
+
+                    b.HasIndex("TopicTagId");
+
+                    b.ToTable("LearningResourceTopicTag");
+                });
+
             modelBuilder.Entity("NetLearner.SharedLib.Models.ResourceList", b =>
                 {
                     b.Property<int>("Id")
@@ -255,6 +293,21 @@ namespace NetLearner.SharedLib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ResourceLists");
+                });
+
+            modelBuilder.Entity("NetLearner.SharedLib.Models.TopicTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TagValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TopicTags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -308,11 +361,35 @@ namespace NetLearner.SharedLib.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NetLearner.SharedLib.Models.ContentFeed", b =>
+                {
+                    b.HasOne("NetLearner.SharedLib.Models.LearningResource", "LearningResource")
+                        .WithMany()
+                        .HasForeignKey("LearningResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("NetLearner.SharedLib.Models.LearningResource", b =>
                 {
                     b.HasOne("NetLearner.SharedLib.Models.ResourceList", "ResourceList")
                         .WithMany("LearningResources")
                         .HasForeignKey("ResourceListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NetLearner.SharedLib.Models.LearningResourceTopicTag", b =>
+                {
+                    b.HasOne("NetLearner.SharedLib.Models.LearningResource", "LearningResource")
+                        .WithMany("LearningResourceTopicTags")
+                        .HasForeignKey("LearningResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NetLearner.SharedLib.Models.TopicTag", "TopicTag")
+                        .WithMany("LearningResourceTopicTags")
+                        .HasForeignKey("TopicTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -21,5 +21,10 @@ namespace NetLearner.SharedLib.Models
         public int ResourceListId { get; set; }
         [DisplayName("In List")]
         public ResourceList ResourceList { get; set; }
+
+        [DisplayName("Feed Url")]
+        public string ContentFeedUrl { get; set; }
+
+        public List<LearningResourceTopicTag> LearningResourceTopicTags { get; set; }
     }
 }
