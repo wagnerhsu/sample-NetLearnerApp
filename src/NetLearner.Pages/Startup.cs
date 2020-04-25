@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetLearner.SharedLib.Data;
 using NetLearner.SharedLib.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace NetLearner.Pages
 {
@@ -42,7 +36,7 @@ namespace NetLearner.Pages
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential 
+                // This lambda determines whether user consent for non-essential
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NetLearner.Pages.Areas.Identity.Pages.Account
 {
-    [Authorize] //[AllowAnonymous]
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
